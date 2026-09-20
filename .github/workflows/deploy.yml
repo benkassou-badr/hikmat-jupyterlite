@@ -26,12 +26,9 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
 
-      - name: Create content directories
+      - name: Show content
         run: |
-          mkdir -p content/seconde
-          mkdir -p content/premiere
-          mkdir -p content/terminale
-          mkdir -p content/maths-expertes
+          find content -maxdepth 2 -print
 
       - name: Build Seconde
         run: |
@@ -50,12 +47,6 @@ jobs:
           jupyter lite build \
             --contents content/Terminale \
             --output-dir dist/terminale
-
-      - name: Build Maths Expertes
-        run: |
-          jupyter lite build \
-            --contents content/Maths-expertes \
-            --output-dir dist/maths-expertes
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
