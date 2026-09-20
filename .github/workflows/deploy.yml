@@ -36,25 +36,25 @@ jobs:
       - name: Build Seconde
         run: |
           jupyter lite build \
-            --contents content/seconde \
+            --contents content/Seconde \
             --output-dir dist/seconde
 
       - name: Build Premiere
         run: |
           jupyter lite build \
-            --contents content/premiere \
+            --contents content/Premiere \
             --output-dir dist/premiere
 
       - name: Build Terminale
         run: |
           jupyter lite build \
-            --contents content/terminale \
+            --contents content/Terminale \
             --output-dir dist/terminale
 
       - name: Build Maths Expertes
         run: |
           jupyter lite build \
-            --contents content/maths-expertes \
+            --contents content/Maths-expertes \
             --output-dir dist/maths-expertes
 
       - name: Configure GitHub Pages
