@@ -11,28 +11,64 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Install the dependencies
+
+      - name: Install dependencies
         run: |
+          python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
-      - name: Build the JupyterLite site
+
+      - name: Create content directories
         run: |
-          cp README.md content
-          jupyter lite build --contents content --output-dir dist
+          mkdir -p content/seconde
+          mkdir -p content/premiere
+          mkdir -p content/terminale
+          mkdir -p content/maths-expertes
+
+      - name: Build Seconde
+        run: |
+          jupyter lite build \
+            --contents content/seconde \
+            --output-dir dist/seconde
+
+      - name: Build Premiere
+        run: |
+          jupyter lite build \
+            --contents content/premiere \
+            --output-dir dist/premiere
+
+      - name: Build Terminale
+        run: |
+          jupyter lite build \
+            --contents content/terminale \
+            --output-dir dist/terminale
+
+      - name: Build Maths Expertes
+        run: |
+          jupyter lite build \
+            --contents content/maths-expertes \
+            --output-dir dist/maths-expertes
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: ./dist
 
   deploy:
     needs: build
     if: github.ref == 'refs/heads/main'
+
     permissions:
       pages: write
       id-token: write
@@ -42,6 +78,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
 
     runs-on: ubuntu-latest
+
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
